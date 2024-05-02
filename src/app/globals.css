@@ -1,3 +1,7 @@
+:root {
+  --max-width: 300px;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

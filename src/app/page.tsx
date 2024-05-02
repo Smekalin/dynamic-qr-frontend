@@ -1,20 +1,41 @@
 'use client'
 
-import {useState} from 'react'
+import React, { useState } from 'react'
+import { GenerateQrService } from '../generate-qr-service/generate-qr.service'
 import styles from './page.module.css'
 
 export default function Home() {
   const [image, setImage] = useState('')
-  const [url, setUrl] = useState('https://www.google.com/')
+  const [url, setUrl] = useState('')
+  const linkRef = React.useRef(null)
 
   const handleClick = () => {
-    fetch(`http://localhost:8080/api/v1/generator/create?url=${url}`)
-      .then((res) => res.blob())
-      .then((res) => {
-        const imageUrl = URL.createObjectURL(res)
+    if (!url || !url.trim()) {
+      return
+    }
+
+    GenerateQrService.generate(url)
+      .then((imageUrl) => {
+        if (!imageUrl) {
+          return
+        }
+
         setImage(imageUrl)
       })
       .catch((err) => console.log(err))
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.key !== 'Enter') {
+      return
+    }
+
+    if (event.ctrlKey || event.metaKey) {
+      const link = linkRef?.current as HTMLElement | null
+      link?.click()
+    }
+
+    handleClick()
   }
 
   return (
@@ -29,12 +50,29 @@ export default function Home() {
         <div className={styles.emptyImage}></div>
       )}
       <input
+        autoFocus
+        placeholder="Enter your link"
         className={styles.input}
         onChange={(e) => setUrl(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
-      <button className={styles.button} onClick={handleClick}>
-        Generate
-      </button>
+
+      <div className={styles.actionContainer}>
+        <button className={styles.button} onClick={handleClick}>
+          Generate
+        </button>
+
+        {image && (
+          <a
+            ref={linkRef}
+            className={styles.downloadLink}
+            href={image}
+            download="qr"
+            title="You can use Ctrl+Enter for download">
+            Download
+          </a>
+        )}
+      </div>
     </div>
   )
 }

@@ -8,20 +8,45 @@
 }
 
 .image {
-  width: 232px;
-  height: 232px;
+  width: var(--max-width);
+  height: var(--max-width);
 }
 
 .emptyImage {
-  width: 232px;
-  height: 232px;
+  width: var(--max-width);
+  height: var(--max-width);
   background: #beceda;
 }
 
 .input {
-
+  width: var(--max-width);
+  height: 30px;
 }
 
 .button {
+  width: 150px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid black;
+}
 
+.button:hover {
+  background-color: #beceda;
+  cursor: pointer;
+}
+
+.downloadLink {
+  font-size: 12px;
+  text-decoration: none;
+  color: gray;
+}
+
+
+.actionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  height: 60px;
 }
