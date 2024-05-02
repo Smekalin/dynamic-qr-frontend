@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import React, { useState } from 'react'
 import { GenerateQrService } from '../generate-qr-service/generate-qr.service'
 import styles from './page.module.css'
@@ -41,7 +42,9 @@ export default function Home() {
   return (
     <div className={styles.container}>
       {image ? (
-        <img
+        <Image
+          width={300}
+          height={300}
           className={styles.image}
           src={image}
           alt={`generated qr code for ${url}`}
