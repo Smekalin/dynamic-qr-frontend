@@ -1,3 +1,3 @@
 export const API = {
-  root: 'http://localhost:8080',
+  root: 'https://warm-mountain-40050-283d3eeb2cb2.herokuapp.com',
 }
